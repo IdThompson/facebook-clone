@@ -17,12 +17,15 @@ public class User {
     private String country;
     private String passWord;
 
-//    public User(String userName, String email, String firstName, String lastName, String country, String passWord) {
-//        this.userName = userName;
-//        this.email = email;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.country = country;
-//        this.passWord = passWord;
+    public User(String userName, String email, String firstName, String lastName, String country, String passWord) {
+        this.userName = userName;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.passWord = passWord;
+    }
+//
+//    public User() {
 //    }
 }

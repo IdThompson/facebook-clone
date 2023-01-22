@@ -40,7 +40,7 @@ public class UserRegistrationServlet extends HttpServlet {
 
         try {
 
-            int status=userDAO.createUser(newUser);
+            userDAO.createUser(newUser);
             RequestDispatcher dispatcher= request.getRequestDispatcher("/index.jsp");
             dispatcher.forward(request,response);
 

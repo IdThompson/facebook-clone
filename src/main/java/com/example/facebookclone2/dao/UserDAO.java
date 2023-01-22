@@ -14,11 +14,11 @@ public class UserDAO {
     private String jdbcUsername = "root";
     private String jdbcPassword = "password";
 
-    private static final String CREATE_NEW_USER= "INSERT INTO user" + " (userName,email,firstName,lastName,country,password) VALUES" +  " ( ?,?,?,?,?,?)";
+    private static final String CREATE_NEW_USER= "INSERT INTO user (username, email, firstname, lastname, country, password) VALUES ( ?,?,?,?,?,?)";
     private static final String SELECT_ALL_USERS= "select * from user";
-    private static final String SELECT_USER_BY_ID= "select * from user where userName =? and passWord=?";
-    private static final String DELETE_USER_SQL = "delete from user where userName= ?";
-    private static final String  SELECT_POST_OWNER= "select from user where userId=?";
+    private static final String SELECT_USER_BY_ID= "select * from user where username =? and password=?";
+    private static final String DELETE_USER_SQL = "delete from user where username= ?";
+    private static final String  SELECT_POST_OWNER= "select from user where id=?";
 
 
     private Connection getConnection(){
@@ -38,8 +38,8 @@ public class UserDAO {
     };
 
 
-    public int createUser(User user) throws SQLException{
-        int status=0;
+    public void createUser(User user) throws SQLException{
+//        int status=0;
         try (  Connection connection= getConnection();
                PreparedStatement preparedStatement= connection.prepareStatement(CREATE_NEW_USER)){
             preparedStatement.setString(1,user.getUserName());
@@ -49,11 +49,16 @@ public class UserDAO {
             preparedStatement.setString(5,user.getCountry());
             preparedStatement.setString(6,user.getPassWord());
             System.out.println(preparedStatement);
-            status= preparedStatement.executeUpdate();
+            preparedStatement.execute();
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return status;
+    }
+
+    public static void main(String[] args) throws SQLException {
+        UserDAO userDAO = new UserDAO();
+        User user = new User("Olu", "olu@gmail", "Olu", "Olu", "Nigeria", "pass");
+        userDAO.createUser(user);
     }
 
 
@@ -65,10 +70,10 @@ public class UserDAO {
             ResultSet result= preparedStatement.executeQuery();
 
             while(result.next()){
-                int id= result.getInt("userId");
-                String name= result.getString("userName");
+                int id= result.getInt("id");
+                String name= result.getString("username");
                 String email= result.getString("email");
-                String firstName= result.getString("firstName");
+                String firstName= result.getString("firstname");
                 String lastName= result.getString("lastname");
                 String country = result.getString("country");
                 String passWord= result.getString("password");
@@ -98,10 +103,10 @@ public class UserDAO {
             ResultSet result= preparedStatement.executeQuery();
 
             while(result.next()){
-                int id = result.getInt("userId");
+                int id = result.getInt("id");
                 String email= result.getString("email");
-                String firstName= result.getString("firstName");
-                String lastName= result.getString("lastName");
+                String firstName= result.getString("firstname");
+                String lastName= result.getString("lastname");
                 String country = result.getString("country");
                 user = new User();
                 user.setUserName(userName);
